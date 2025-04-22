@@ -2,6 +2,7 @@ import { Component } from 'react';
 
 import { connect } from 'react-redux';
 
+import { counterActions } from '../store';
 //implementing the same with class based components
 class Counter extends Component {
   incrementHandler() {
@@ -10,7 +11,9 @@ class Counter extends Component {
   decrementHandler() {
     this.props.decrement();
   }
-  toggleCounterHandler() {}
+  toggleCounterHandler() {
+    this.props.toggleCounter();
+  }
 
   render() {
     return (
@@ -34,13 +37,17 @@ class Counter extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { counter: state.counter };
+  return {
+    counter: state.counter.counter,
+    showCounter: state.counter.showCounter,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    increment: () => dispatch({ type: 'increment' }),
-    decrement: () => dispatch({ type: 'decrement' }),
+    increment: () => dispatch(counterActions.increment()),
+    decrement: () => dispatch(counterActions.decrement()),
+    toggleCounter: () => dispatch(counterActions.toggleCounter()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);
